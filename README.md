@@ -22,9 +22,12 @@ manor.
   - (2) interfaces, em0(vmbr0), em1(vmbr1)
 3.Add packages for python3, git, ansible: <br>
    ``pkg_add python3 ansible git``
+
 4.Checkout the waxedhexagon repository on fw1 machine.<br>
     ``git clone https://github.com/stevescally/WaxedHexagon.git``
+
 5.Updated the inventory to reflect your network settings.
+
 6.Run the baseline_openbsd.yaml playbook.<br>
     ``ansible -i inventory playbooks/baseline_openbsd.yaml -k -u <user>``
 
