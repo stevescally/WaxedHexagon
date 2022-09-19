@@ -1,0 +1,11 @@
+# Baseline OpenBSD Configuration
+#
+# This playbook configures the root and user01 settings to allow for future
+# playbook execution in a secure manor.
+#
+# Change user01 password to vault entry
+# Install ansible with pkg_add
+# Generate user01 ssh keys
+# Add user01 to doas configuration
+# Remove root ssh login
+# Change root password to vault entry

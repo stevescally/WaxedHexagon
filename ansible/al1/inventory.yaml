@@ -1,0 +1,39 @@
+---
+  all:
+    hosts:
+      al1-fw1:
+      al1-arkime01:
+      al1-kali01:
+      al1-win01:
+      al1-remnux01:
+      al1-unbuntu01:
+    children:
+     firewall:
+       hosts:
+         al1-fw1:
+     dhcp:
+       hosts:
+         al1-fw1:
+     dns:
+       hosts:
+         al1-fw1:
+     arkime:
+       hosts:
+         al1-arkime01:
+     remnux:
+       hosts:
+         al1-remnux01:
+     windows11:
+       hosts:
+         al1-win01:
+     openbsd:
+       hosts:
+         al1-fw1:
+           ansible_host: 192.168.50.248
+       vars:
+         ansible_python_interpreter: /usr/local/bin/python3
+         ansible_connection: paramiko
+     linux:
+       hosts:
+         al1-kali01:
+         al1-unbuntu01:
