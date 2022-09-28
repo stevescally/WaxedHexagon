@@ -1,5 +1,5 @@
 ---
-# OpenBSD DHCPd Playbook 
+# OpenBSD dhcpd Playbook 
 # ----------------------
 #
 # This playbook deploys the dhcpd.conf file and 
@@ -8,20 +8,31 @@
 # 
 
 
-- name: DHCPd Playbook
+- name: dhcpd Playbook
   hosts: dhcp
   become: yes
+  become_method: doas
   become_user: root
   
   tasks:
+
     - name: Deploy dhcpd.conf template 
       ansible.builtin.template:
         src: "{{ inventory_dir }}/templates/dhcpd.conf.j2"
         dest: /etc/dhcpd.conf
-      
-    - name: Enable dhcpd
-      ansible.builtin.command: /usr/sbin/rcctl enable dhcpd
+      register: dhcpd
+  
+    - name: Restart dhcpd configuration (changed)
+      ansible.builtin.service:
+        name: dhcpd
+        state: reloaded 
+      when: dhcpd.changed
 
-    - name: Set dhcpd flags
-      ansible.builtin.command: "/usr/sbin/rcctl set dhcpd flags {{ al1_dhcpd_interface }}" 
-             
+    - name: Enable / Start dhcpd
+      ansible.builtin.service:
+        name: dhcpd
+        enabled: yes
+        state: started
+        args: em1
+        use: "rcctl"
+

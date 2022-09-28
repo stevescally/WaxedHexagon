@@ -1,0 +1,28 @@
+---
+# OpenBSD NTP Playbook 
+# ----------------------
+#
+# This playbook deploys the ntpconf file and 
+# configures the ntp service for the al1 
+# analysis lab.
+# 
+
+
+- name: NTP Playbook
+  hosts: openbsd 
+  become: yes
+  become_user: root
+  
+  tasks:
+    - name: Deploy ntp.conf template 
+      ansible.builtin.template:
+        src: "{{ inventory_dir }}/templates/dhcpd.conf.j2"
+        dest: /etc/dhcpd.conf
+      
+    - name: Enable ntpd
+      ansible.builtin.command: /usr/sbin/rcctl enable dhcpd
+
+    - name: Set ntpd flags
+      ansible.builtin.command: "/usr/sbin/rcctl set dhcpd flags {{ al1_dhcpd_interface }}" 
+    
+    - name: Start ntpd service        

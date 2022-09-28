@@ -12,8 +12,8 @@
 #
 
 subnet {{ hostvars[inventory_hostname]['al1_subnet'] }} netmask {{ hostvars[inventory_hostname]['al1_netmask'] }} {
-	option  domain-name "{{ hostvars[inventory_hostname]['al1_domain'] }}";
-	option  domain-name-servers {{ hostvars[inventory_hostname]['al1_dns_servers'] }};
+	option domain-name "{{ hostvars[inventory_hostname]['al1_domain'] }}";
+	option domain-name-servers {{ hostvars[inventory_hostname]['al1_routers'] }};
 	option routers {{ hostvars[inventory_hostname]['al1_routers'] }};
 
 	range {{ hostvars[inventory_hostname]['al1_range'] }};

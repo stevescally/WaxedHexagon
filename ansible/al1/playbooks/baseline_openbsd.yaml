@@ -4,7 +4,6 @@
 # playbook execution in a secure manor.
 #
 #
-# - Setup ntp/chrony
 # - Setup hostname files / entries
 # - Copy over doas.conf
 # - Generate SSH keys for user01

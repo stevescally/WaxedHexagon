@@ -1,6 +1,6 @@
 # Overview
 
-[Ansible|https://www.ansible.com/resources/get-started] is used to configure
+[Ansible](https://www.ansible.com/resources/get-started) is used to configure
 most aspects of the lab environment(s).  This allows for easy replication,
 standardization as well as customization of an environment.
 
@@ -14,7 +14,7 @@ This is strictly my usage and thoughts of Ansible but a host system only has
 * Removal / Decom
 
 I use this thought process to guide the use of files, templates, inventory and
-playbooks.  [Ansible documentation|https://docs.ansible.com/] has nuumerous
+playbooks.  [Ansible documentation](https://docs.ansible.com/) has nuumerous
 ways to allow you to manage any system or service and with that flexibility
 comes complexity and hierarchies.
 
