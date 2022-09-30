@@ -1,0 +1,18 @@
+# $OpenBSD: ntpd.conf,v 1.5 2019/11/11 16:44:37 deraadt Exp $
+# sample ntpd configuration file, see ntpd.conf(5)
+
+{% if ntpd_server == true %}
+# Addresses to listen on (ntpd does not listen by default)
+listen on {{ ntpd_interface }} 
+
+# Sync servers
+# use a random selection of NTP Pool Time Servers
+# see http://support.ntp.org/bin/view/Servers/NTPPoolServers
+server {{ ntp_server_1 }} 
+server {{ ntp_server_2 }} 
+server {{ ntp_server_3 }}
+{% else %}
+server {{ ntp_server }}
+sensor *
+{% endif %} 
+
