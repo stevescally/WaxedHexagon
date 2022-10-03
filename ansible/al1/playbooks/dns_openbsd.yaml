@@ -15,5 +15,18 @@
       ansible.builtin.template:
         src: "{{ inventory_dir }}/templates/unbound.conf.j2"
         dest: /var/unbound/etc/unbound.conf
+        validate: /usr/sbin/unbound-checkconf %s
       register: unbound
+
+    - name: Deploy updated resolv.conf
+      ansible.builtin.template:
+        src: "{{ inventory_dir }}/templates/resolv.conf.j2"
+        dest: /etc/resolv.conf
+
+    - name: Enable unbound
+      ansible.builtin.service:
+        name: unbound
+        enabled: yes
+        state: restarted
+        use: "rcctl"
 

@@ -31,7 +31,10 @@
        hosts:
          al1-fw1:
            unbound_server: true
-           unbound_interface: em1
+           unbound_interface:
+             - em1
+             - 127.0.0.1
+             - ::1
            unbound_port: 53
            unbound_log: /var/log/unbound.log           
            unbound_log_queries: true
@@ -41,7 +44,7 @@
              - 127.0.0.0/8 allow
              - ::0/0 refuse
              - ::1 allow
-             - 172.16.0.0/24 allow
+             - 172.16.1.0/24 allow
              - fd21:bc66:5393:1::/64 allow
      arkime:
        hosts:
@@ -58,7 +61,7 @@
            hostname: fw1.al1.home.arpa
            ansible_host: 172.16.1.1
            hardware_em0: B6:20:9E:D6:AF:85
-           ip_address_em0: autoconf
+           ip_address_em0: 192.168.50.248
            hardware_em1: 42:96:E0:4C:04:39
            ip_address_em1: 172.16.1.1
            ip6_address_em1: fd21:bc66:5393:1::1
