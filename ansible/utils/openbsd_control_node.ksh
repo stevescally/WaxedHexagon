@@ -33,7 +33,8 @@ print "*******************************"
 /usr/sbin/pkg_add ansible \
                   python3 \
 		  zsh \
-		  "vim-8.2.4600-no_x11-perl-python3-ruby" 
+		  vim \
+		  sudo 
 
 # Install ansible-galaxy community general
 # https://docs.ansible.com/ansible/latest/collections/community/general/index.html
@@ -45,14 +46,14 @@ print "******************************************************\n"
                               install community.general \
                               -p /usr/share/ansible/collections 
 
-# Setup doas.conf
+# Setup sudoers file 
 #
-# We could set this up as an ansible playbook or task but doas will be needed
-# anyway to run future playbooks so it makes sense to setup now instead of 
-# complicating the playbook workflow.
+# Spent way too much time on getting doas to work in
+# playbooks and sudo is the ansible default. Don't fight
+# the current work with it.  I'll most likely look into
+# getting this to work with doas
 
-# Copy example file to /etc/doas.conf
+# Copy pre-modified sudoers file to /etc/sudoers
 
-print "\nCopying example doas.conf to /etc/doas.conf"
-/bin/cp -v /etc/examples/doas.conf /etc/doas.conf
-
+print "\nCopying modified sudoers file to /etc/sudoers"
+/bin/cp -v ../al1/files/sudoers /etc/sudoers

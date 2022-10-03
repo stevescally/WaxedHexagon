@@ -11,8 +11,8 @@
 - name: dhcpd Playbook
   hosts: dhcp
   become: yes
-  become_method: doas
   become_user: root
+  gather_facts: no
   
   tasks:
 
@@ -25,7 +25,10 @@
     - name: Restart dhcpd configuration (changed)
       ansible.builtin.service:
         name: dhcpd
-        state: reloaded 
+        enabled: yes
+        state: restarted 
+        args: "{{ al1_dhcpd_interface }}" 
+        use: "rcctl"
       when: dhcpd.changed
 
     - name: Enable / Start dhcpd
@@ -33,6 +36,6 @@
         name: dhcpd
         enabled: yes
         state: started
-        args: em1
+        args: "{{ al1_dhcpd_interface }}" 
         use: "rcctl"
 

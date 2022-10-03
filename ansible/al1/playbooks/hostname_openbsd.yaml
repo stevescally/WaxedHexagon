@@ -1,0 +1,30 @@
+# hostname_openbsd.yaml
+#
+# Setup hostname and hosts file. In order to set the
+# hostname at this point it needs to be resolvable from
+# the /etc/hosts file since nsd/unbound has not been
+# configured yet.
+#
+
+- name: Hostname Configuration
+  hosts: openbsd
+  become: yes
+
+  tasks:
+
+    - name: Copy myname template
+      ansible.builtin.template:
+        src: "{{ inventory_dir }}/templates/myname.j2"
+        dest: /etc/myname
+      
+    - name: Update /etc/hosts file
+      ansible.builtin.copy:
+        src: "{{ inventory_dir }}/files/hosts"
+        dest: /etc/hosts
+        owner: root
+        group: wheel
+        mode: '0644'
+
+    - name: Change hostname
+      ansible.builtin.command:
+        cmd: "/bin/hostname {{ hostname }}"
