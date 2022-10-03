@@ -1,0 +1,8 @@
+127.0.0.1		localhost
+::1			localhost
+172.16.1.1		fw1.al1.home.arpa
+fd21:bc66:5393:1::1	fw1.al1.home.arpa
+172.16.1.1		ntp1.al1.home.arpa
+fd21:bc66:5393:1::1	ntp1.al1.home.arpa
+172.16.1.1		dns1.al1.home.arpa
+fd21:bc66:5393:1::1 	dns1.al1.home.arpa

@@ -1,0 +1,72 @@
+# $OpenBSD: unbound.conf,v 1.21 2020/10/28 11:35:58 sthen Exp $
+
+server:
+	interface: {{ unbound_interface }} 
+	port: {{ unbound_port }}
+
+	{% for ctrl in unbound_access_control -%}
+	access-control: {{ ctrl }}
+	{% endfor %}
+
+	hide-identity: yes
+	hide-version: yes
+	
+	verbosity: 3
+	logfile: "/var/unbound/etc/unbound.log"
+
+	# Perform DNSSEC validation.
+	#
+	#auto-trust-anchor-file: "/var/unbound/db/root.key"
+	#val-log-level: 2
+
+	# Synthesize NXDOMAINs from DNSSEC NSEC chains.
+	# https://tools.ietf.org/html/rfc8198
+	#
+	#aggressive-nsec: yes
+
+	# Serve zones authoritatively from Unbound to resolver clients.
+	# Not for external service.
+	#
+	local-zone: "home.arpa." nodefault
+	local-zone: "16.172.in-addr.arpa." nodefault
+
+	local-zone: "al1.home.arpa." transparent 
+	local-data: "al1.home.arpa. 10800 IN NS dns1."
+	local-data: "al1.home.arpa. 10800 IN SOA dns1. user01@al1.home.arpa. 1 3600 1200 604800 10800"
+	local-data: "fw1.al1.home.arpa. IN A 172.16.1.1"
+	local-data: "fw1.al1.home.arpa. IN AAAA fd21:bc66:5393:1::1"
+	local-data: "ntp1.al1.home.arpa. CNAME fw1.al1"
+	local-data: "dns1.al1.home.arpa. CNAME fw1.al1"
+
+	local-zone: "1.16.172.in-addr.arpa." transparent 
+	local-data: "1.16.172.in-addr.arpa. 10800 IN NS dns1."
+	local-data: "1.16.172.in-addr.arpa. 10800 IN SOA dns1. user01@al1.home.arpa 2 3600 1200 604800 10800"
+	local-data: "1.1.16.172.in-addr.arpa. 10800 IN PTR fw1.al1.home.arpa."
+
+	local-zone: "0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.0.3.9.3.5.6.6.c.b.1.2.d.f.ip6.arpa." transparent 
+	local-data: "0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.0.3.9.3.5.6.6.c.b.1.2.d.f.ip6.arpa. 10800 IN NS dns1."
+	local-data: "0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.0.3.9.3.5.6.6.c.b.1.2.d.f.ip6.arpa. 10800 IN SOA dns1.  user01@al1.home.arpa 1 3600 1200 604800 10800"
+	local-data: "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.0.3.9.3.5.6.6.c.b.1.2.d.f.ip6.arpa. 10800 IN PTR fw1.al1.home.arpa."
+
+	#local-zone: "local." static
+	#local-data: "mycomputer.local. IN A 192.0.2.51"
+	#local-zone: "2.0.192.in-addr.arpa." static
+	#local-data-ptr: "192.0.2.51 mycomputer.local"
+
+	# Use TCP for "forward-zone" requests. Useful if you are making
+	# DNS requests over an SSH port forwarding.
+	#
+	#tcp-upstream: yes
+
+	# CA Certificates used for forward-tls-upstream (RFC7858) hostname
+	# verification.  Since it's outside the chroot it is only loaded at
+	# startup and thus cannot be changed via a reload.
+	#tls-cert-bundle: "/etc/ssl/cert.pem"
+	
+	forward-zone:
+	  name: "."
+          forward-addr: 192.168.50.1@53
+
+remote-control:
+	control-enable: yes
+	control-interface: /var/run/unbound.sock

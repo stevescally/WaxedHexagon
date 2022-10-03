@@ -6,15 +6,15 @@ standardization as well as customization of an environment.
 
 # Mode(s)
 
-This is strictly my usage and thoughts of Ansible but a host system only has
-(3) states:
+This is strictly my usage and thoughts of ansible for this lab environment.
 
-* Deploying
-* Updating / Upgrading
-* Removal / Decom
+A host playbook only has (2) states:
+
+* Deploying (First time / re-install)
+* Updating (Configuration change / software update)
 
 I use this thought process to guide the use of files, templates, inventory and
-playbooks.  [Ansible documentation](https://docs.ansible.com/) has nuumerous
+playbooks.  [Ansible documentation](https://docs.ansible.com/) has numerous
 ways to allow you to manage any system or service and with that flexibility
 comes complexity and hierarchies.
 
@@ -41,23 +41,10 @@ the playbook name.
 
 ### Basic Playbook
 
-I'm not particularly concerned with inter-playbook logic or a complex
-arrangement of roles, tasks, and other layouts. If you are re-building a host,
-virtual machine, or service then a deployment playbook should do all task
-related to deployment for the first time. Otherwise you are upgrading an
-existing service. 
-
-There will be times where the upgrade changes how a deployment should happen.
-These areas can be back ported to the deployment playbook. Since you have
-performed the upgrade you know the tasks wiill work for future deployments. In
-the event that it doesn't work you can reference the upgrade process changes to
-determine the error. There will be tasks and code that is reused but we have
-tools to search for blocks of code and edit multiple files at one. These aren't
-3k line programs and the playbooks are performing only the required actions so
-the process and execution is compartmentalized and mentally mappable. Arguably
-if you don't understand how the service or system is being deployed then it
-doesn't make sense why you would be making changes. 
-
-How could you possibly understand both what needs to be changed and what it
-will affect if you don't know how the current process works.
+Playbooks should perform a defined deployment or upgrade tasks. In my
+experience it is better to have more playbooks that replicate existing tasks
+verses complex logic utilizing ansible working knowledge. Its more so the
+explicit over implicit understanding when reading through a playbook. Can this
+lead to cruft, yes, but will coming back to a playbook after (3) months require
+remembering multiple ansible feature tie-ins and functionality, no.
 

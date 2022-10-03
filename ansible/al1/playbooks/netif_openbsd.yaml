@@ -1,0 +1,22 @@
+# netif_openbsd.yaml
+#
+# Setup network interface for inner network. This is typically em1.
+# The outer interface em0 is setup during the initial installation.
+#
+#
+
+- name: Network Interfaces
+  hosts: openbsd
+  become: yes
+
+  tasks:
+
+    - name: Deploy hostname.em1 template
+      ansible.builtin.template:
+        src: "{{ inventory_dir }}/templates/hostname.if.j2"
+        dest: /etc/hostname.em1
+      register: em1
+
+    - name: Start / Restart networking
+      ansible.builtin.command: 
+        cmd: sh /etc/netstart em1

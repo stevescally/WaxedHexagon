@@ -1,0 +1,19 @@
+# dns_openbsd.yaml
+#
+# For the al1 lab we will setup unbound as it can be authoratative
+# for the zones home.arpa and 16.172.in-addr.arpa which we are using.
+#
+
+- name: Unbound al1.home.arpa Deploy
+  hosts: dns
+  become: yes
+  become_user: root
+
+  tasks:
+
+    - name: Deploy Unbound template
+      ansible.builtin.template:
+        src: "{{ inventory_dir }}/templates/unbound.conf.j2"
+        dest: /var/unbound/etc/unbound.conf
+      register: unbound
+
