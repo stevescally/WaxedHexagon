@@ -5,7 +5,9 @@
 #
 #
 # - Setup hostname files / entries
-# - Copy over doas.conf
 # - Generate SSH keys for user01
-# - change shell if zsh installed
-# - download/setup ohmyzsh
+# - Change shell if zsh installed
+# - Download/setup ohmyzsh
+#
+#
+

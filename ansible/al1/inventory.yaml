@@ -2,6 +2,8 @@
   all:
     hosts:
       al1-fw1:
+    vars:
+      ntp_server: ntp1.al1.home.arpa
     children:
      firewall:
        hosts:
@@ -17,6 +19,14 @@
            al1_range: 172.16.1.200 172.16.1.250
            al1_dhcpd_interface: em1
        vars:
+     ntpd:
+       hosts:
+         al1-fw1:
+           ntpd_server: true
+           ntpd_interface: 172.16.1.1
+           ntp_server_1: 1.north-america.pool.ntp.org
+           ntp_server_2: 2.north-america.pool.ntp.org
+           ntp_server_3: 3.north-america.pool.ntp.org
      dns:
        hosts:
          al1-fw1:
@@ -32,14 +42,14 @@
      openbsd:
        hosts:
          al1-fw1:
-           ansible_host: 172.16.1.1 
-           hardware_em1: 42:96:E0:4C:04:39 
+           ansible_host: 172.16.1.1
+           hardware_em1: 42:96:E0:4C:04:39
            ip_address_em1: 172.16.1.1
            tz: /usr/share/zoneinfo/US/Eastern
        vars:
          ansible_python_interpreter: /usr/local/bin/python3
          ansible_connection: local
-         ansible_become_method: su
+         ansible_become_method: doas
      linux:
        hosts:
          al1-kali01:
